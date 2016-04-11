@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "rootDir": "frontend",
+        "outDir": "build/frontend",
+        "jsx": "react"
+    },
+    "exclude": [
+        "build",
+        "node_modules",
+        "typings/browser",
+        "typings/browser.d.ts"
+    ]
+}
