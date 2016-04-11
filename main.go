@@ -2,12 +2,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
-	"net/http"
 	"os"
-	"path/filepath"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func getEnvInt(envVar string, defaultValue int) int {
@@ -26,17 +25,24 @@ func getEnvString(envVar string, defaultValue string) string {
 	return s
 }
 
-func main() {
-	pwd, err := filepath.Abs(".")
-	if err != nil {
-		log.Fatal(err)
-	}
+func renderHomepage(c *gin.Context) {
+	c.HTML(200, "index.html", gin.H{})
+}
+func newWebApp(templateDir string, staticDir string) *gin.Engine {
+	r := gin.Default()
+	r.LoadHTMLGlob(templateDir + "/*")
+	r.GET("/", renderHomepage)
+	r.Static("/public", staticDir)
+	r.GET("/public")
+	return r
+}
 
-	port := flag.Int("port", getEnvInt("PORT", 8080), "Port to listen to.")
-	docRoot := flag.String("htdocs", getEnvString("HTDOCS", pwd), "Doc root")
+func main() {
+	docRoot := flag.String("htdocs", getEnvString("HTDOCS", "./build/public"), "Doc root")
+	templateDir := flag.String("templates", getEnvString("TEMPLATE_DIR", "templates"), "Directory with templates")
 	flag.Parse()
 
-	bind := fmt.Sprintf(":%d", *port)
-	log.Printf("Listening to http://localhost%s", bind)
-	http.ListenAndServe(bind, http.FileServer(http.Dir(*docRoot)))
+	log.Printf("htdocs = %s | templates = %s", *docRoot, *templateDir)
+	app := newWebApp(*templateDir, *docRoot)
+	app.Run()
 }

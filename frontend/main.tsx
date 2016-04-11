@@ -3,7 +3,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-interface MailingList {
+interface BlogPost {
     /*
     _id: string;
     legacyIDs: Array<number>;
@@ -12,8 +12,8 @@ interface MailingList {
     list: string;
     */    
 }
-class MailingLists extends React.Component<MailingList, any> {
-    constructor(props: MailingList) {
+class BlogPosts extends React.Component<BlogPost, any> {
+    constructor(props: BlogPost) {
         super(props);
     }
     
@@ -23,6 +23,6 @@ class MailingLists extends React.Component<MailingList, any> {
 }
 
 ReactDOM.render(
-    <MailingLists />,
+    <BlogPosts />,
     document.getElementById('content')
 )

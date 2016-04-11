@@ -2,7 +2,10 @@ all:
 	go build -o build/server
 	tsc -p .
 	webpack
-	cp frontend/index.html build/
+	rsync -av --delete templates/ build/templates/
 
 run: all
-	build/server -htdocs build
+	build/server -templates build/templates -htdocs build/public
+
+clean:
+	rm -rf build

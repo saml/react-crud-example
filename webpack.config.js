@@ -1,7 +1,7 @@
 module.exports = {
     entry: './build/frontend/main.js', // tsc outputs to this directory.
     output: {
-        filename: './build/main.js'  
+        filename: './build/public/main.js'  
     },
     externals: {
         'react': 'React',
